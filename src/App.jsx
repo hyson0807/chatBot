@@ -8,11 +8,13 @@ function App() {
   const [answer, setAnswer] = useState('');
 
   const submitQ = async () => {
+    setHandleAnswer(1);
     try {
       const response = await axios.post('http://localhost:5001/api/submit', {
         content,
       });
-      alert(response.data.answer);
+      setAnswer(response.data.answer);
+      setHandleAnswer(2);
       setContent('');
     } catch (error) {
       console.error('Error:', error);
@@ -40,8 +42,18 @@ function App() {
       >
         질문하기
       </button>
-      <div className='w-full h-20 border border-gray-300 rounded-2xl'>
-
+      
+      <div className='w-full h-20 border border-gray-300 rounded-2xl flex items-center justify-center'>
+        {handleAnswer === 1 && (
+          <div>
+            <p>답변중입니다...</p>
+          </div>
+        )}
+        {handleAnswer === 2 && (
+          <div>
+            {answer}
+          </div>
+        )}
       </div>
     </div>
   );
